@@ -123,24 +123,26 @@ p6 = sorted([(k, min(v), max(v)) for k, v in p6.items()])
 print("6: ", p6)
 print()
 #--------------------------------------------------------------------------------
-
 p7 = {}
 for row in data:
-    if row[1] in p7:
-        p7[row[1]].append(row[0])
+    key,value = int(row[1]),row[0]
+    if key in p7:
+        p7[key].append( value )
     else:
-        p7[row[1]] = [row[0]]
-p7 = sorted([(k,v) for k, v in p7.items()])
+        p7[key] = [value]
+#p7 = sorted([(k,v) for k, v in p7.items()])
+p7 = sorted(list(p7.items()))
+
 print("7: ", p7)
 print()
 #--------------------------------------------------------------------------------
-
 p8 = {}
 for row in data:
-    if row[1] in p8:
-        p8[row[1]].append(row[0])
+    key,value = int(row[1]),row[0]
+    if key in p8:
+        p8[key].append( value )
     else:
-        p8[row[1]] = [row[0]]
+        p8[key] = [value]
 p8 = sorted([(k,sorted(set(v))) for k, v in p8.items()])
 print("8: ", p8)
 print()
@@ -180,4 +182,31 @@ print("10: ", p10)
 print()
 #--------------------------------------------------------------------------------
 
+"""
+    Retorne un diccionario que contengan la suma de la columna 2 para cada letra de la
+    Retorne un diccionario que contengan la suma de la columna 2 para cada letra de la
+    columna 4, ordenadas alfabeticamente.
+
+    Rta/
+    {
+        "a": 122,
+        "b": 49,
+        "c": 91,
+        "d": 73,
+        "e": 86,
+        "f": 134,
+        "g": 35,
+    }
+
+    columna 4, ordenadas alfabeticamente.
+"""
+
+p11 = {}
+for row in data:
+    for letra in row[3].split(","):
+        p11[letra] = p11.get(letra, 0) + int(row[1])
+p11 = dict(sorted(p11.items()))
+print("11: ", p11)
+print()
+#---------------------------------------------------------------------------------
 

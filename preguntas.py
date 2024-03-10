@@ -69,7 +69,7 @@ def pregunta_03():
     """
     p3 = {}
     for row in data:
-        total[ row[0] ] = p3.get( row[0],0) + int(row[1] )  
+        p3[ row[0] ] = p3.get( row[0],0) + int(row[1] )  
     p3 = sorted(list(p3.items()))
     return p3
 
@@ -188,12 +188,13 @@ def pregunta_07():
     """
     p7 = {}
     for row in data:
-        if row[1] in p7:
-            p7[row[1]].append(row[0])
+        key,value = int(row[1]),row[0]
+        if key in p7:
+            p7[key].append( value )
         else:
-            p7[row[1]] = [row[0]]
-    p7 = sorted([(k,v) for k, v in p7.items()])
-
+            p7[key] = [value]
+    #p7 = sorted([(k,v) for k, v in p7.items()])
+    p7 = sorted(list(p7.items()))
     return p7
 
 
@@ -301,7 +302,12 @@ def pregunta_11():
 
 
     """
-    return
+    p11 = {}
+    for row in data:
+        for letra in row[3].split(","):
+            p11[letra] = p11.get(letra, 0) + int(row[1])
+    p11 = dict(sorted(p11.items()))
+    return p11
 
 
 def pregunta_12():
