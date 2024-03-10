@@ -11,9 +11,14 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+with open("data.csv", 'r') as file:
+    data = file.readlines()
+    data = [row.replace('\n', '') for row in data]
+    data = [row.split('\t') for row in data]
 
 def pregunta_01():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
+    global data
     """
     Retorne la suma de la segunda columna.
 
@@ -21,10 +26,12 @@ def pregunta_01():
     214
 
     """
-    return
+    p1 = sum([int(row[1]) for row in data])
+    return p1
 
 
 def pregunta_02():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
     """
     Retorne la cantidad de registros por cada letra de la primera columna como la lista
     de tuplas (letra, cantidad), ordendas alfabéticamente.
@@ -39,10 +46,13 @@ def pregunta_02():
     ]
 
     """
-    return
+    letras = [row[0] for row in data]
+    p2 = [ ( letra,letras.count(letra) ) for letra in sorted(set(letras))]
+    return p2
 
 
 def pregunta_03():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
     """
     Retorne la suma de la columna 2 por cada letra de la primera columna como una lista
     de tuplas (letra, suma) ordendas alfabeticamente.
@@ -57,10 +67,15 @@ def pregunta_03():
     ]
 
     """
-    return
+    p3 = {}
+    for row in data:
+        total[ row[0] ] = p3.get( row[0],0) + int(row[1] )  
+    p3 = sorted(list(p3.items()))
+    return p3
 
 
 def pregunta_04():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
     """
     La columna 3 contiene una fecha en formato `YYYY-MM-DD`. Retorne la cantidad de
     registros por cada mes, tal como se muestra a continuación.
@@ -82,10 +97,13 @@ def pregunta_04():
     ]
 
     """
-    return
+    meses = [row[2][5:7] for row in data]
+    p4 = [ ( mes,meses.count(mes) ) for mes in sorted( set(meses) ) ]
+    return p4
 
 
 def pregunta_05():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
     """
     Retorne una lista de tuplas con el valor maximo y minimo de la columna 2 por cada
     letra de la columa 1.
@@ -100,10 +118,19 @@ def pregunta_05():
     ]
 
     """
-    return
+    p5 = {}
+    for row in data:
+        key,value = row[0],int(row[1])
+        if key in p5:
+            p5[key].append(value)
+        else:
+            p5[key] = [value]
+    p5 = sorted([(k, max(v), min(v)) for k, v in p5.items()])
+    return p5
 
 
 def pregunta_06():
+    # ['E', '1', '1999-02-28', 'b,g,f', 'jjj:12,bbb:3,ddd:9,ggg:8,hhh:2']
     """
     La columna 5 codifica un diccionario donde cada cadena de tres letras corresponde a
     una clave y el valor despues del caracter `:` corresponde al valor asociado a la
@@ -125,7 +152,17 @@ def pregunta_06():
     ]
 
     """
-    return
+    p6 = {}
+    rows = [row[4].split(",") for row in data]
+    for row in rows:
+        for word in row:
+            key, value = word.split(":")
+            if key in p6:
+                p6[key].append(int(value))
+            else:
+                p6[key] = [int(value)]
+    p6 = sorted([(k, min(v), max(v)) for k, v in p6.items()])
+    return p6
 
 
 def pregunta_07():
@@ -149,7 +186,15 @@ def pregunta_07():
     ]
 
     """
-    return
+    p7 = {}
+    for row in data:
+        if row[1] in p7:
+            p7[row[1]].append(row[0])
+        else:
+            p7[row[1]] = [row[0]]
+    p7 = sorted([(k,v) for k, v in p7.items()])
+
+    return p7
 
 
 def pregunta_08():
@@ -174,7 +219,15 @@ def pregunta_08():
     ]
 
     """
-    return
+    p8 = {}
+    for row in data:
+        if row[1] in p8:
+            p8[row[1]].append(row[0])
+        else:
+            p8[row[1]] = [row[0]]
+    p8 = sorted([(k,sorted(set(v))) for k, v in p8.items()])
+
+    return p8
 
 
 def pregunta_09():
@@ -197,7 +250,15 @@ def pregunta_09():
     }
 
     """
-    return
+    p9 = {}
+    rows = [row[4].split(",") for row in data]
+    for row in rows:
+        for word in row:
+            key, value = word.split(":")
+            p9[key] = p9.get(key, 0) + 1
+    #p9 =  {k:v for k,v in sorted(p9.items())}
+    p9 = dict(sorted(p9.items()))
+    return p9
 
 
 def pregunta_10():
@@ -218,7 +279,8 @@ def pregunta_10():
 
 
     """
-    return
+    p10 = [(row[0], len(row[3].split(",")), len(row[4].split(","))) for row in data]
+    return p10
 
 
 def pregunta_11():
