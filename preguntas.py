@@ -222,12 +222,12 @@ def pregunta_08():
     """
     p8 = {}
     for row in data:
-        if row[1] in p8:
-            p8[row[1]].append(row[0])
+        key,value = int(row[1]),row[0]
+        if key in p8:
+            p8[key].append( value )
         else:
-            p8[row[1]] = [row[0]]
+            p8[key] = [value]
     p8 = sorted([(k,sorted(set(v))) for k, v in p8.items()])
-
     return p8
 
 
@@ -325,4 +325,11 @@ def pregunta_12():
     }
 
     """
-    return
+
+    p12 = {}
+    for row in data:
+        for word in row[4].split(","):
+            key, value = word.split(":")
+            p12[row[0]] = p12.get(row[0], 0) + int(value)
+    p12 = dict(sorted(p12.items()))
+    return p12
